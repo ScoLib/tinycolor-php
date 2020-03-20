@@ -29,10 +29,11 @@ class Color
     private $matchers = [];
 
     private $originalInput;
-    public  $r;
-    public  $g;
-    public  $b;
-    public  $a;
+
+    public $r;
+    public $g;
+    public $b;
+    public $a;
     /**
      * @var float|int
      */
@@ -148,16 +149,14 @@ class Color
         }
 
         if (is_array($color)) {
-            if (
-                $this->isValidCSSUnit($color['r'])
+            if ($this->isValidCSSUnit($color['r'])
                 && $this->isValidCSSUnit($color['g'])
                 && $this->isValidCSSUnit($color['b'])
             ) {
                 $rgb    = $this->rgbToRgb($color['r'], $color['g'], $color['b']);
                 $ok     = true;
                 $format = substr($color['r'], -1) === "%" ? "prgb" : "rgb";
-            } elseif (
-                $this->isValidCSSUnit($color['h'])
+            } elseif ($this->isValidCSSUnit($color['h'])
                 && $this->isValidCSSUnit($color['s'])
                 && $this->isValidCSSUnit($color['v'])
             ) {
@@ -166,8 +165,7 @@ class Color
                 $rgb    = $this->hsvToRgb($color['h'], $s, $v);
                 $ok     = true;
                 $format = "hsv";
-            } elseif (
-                $this->isValidCSSUnit($color['h'])
+            } elseif ($this->isValidCSSUnit($color['h'])
                 && $this->isValidCSSUnit($color['s'])
                 && $this->isValidCSSUnit($color['l'])
             ) {

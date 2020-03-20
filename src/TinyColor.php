@@ -103,7 +103,6 @@ class TinyColor
                 break;
         }
         return $out;
-
     }
 
     // `mostReadable`
@@ -133,8 +132,7 @@ class TinyColor
         }
 
 
-        if (
-            self::isReadable($baseColor, $bestColor, ["level" => $level, "size" => $size])
+        if (self::isReadable($baseColor, $bestColor, ["level" => $level, "size" => $size])
             || !$includeFallbackColors
         ) {
             return $bestColor;
