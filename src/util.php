@@ -35,7 +35,12 @@ function bound01($n, $max)
     }
 
     // Convert into [0, 1] range if it isn't already
-    return fmod($n, $max) / floatval($max);
+    return parseIntFromFloat(fmod($n, $max) / floatval($max));
+}
+
+function parseIntFromFloat($val)
+{
+    return $val == intval($val) ? intval($val) : $val;
 }
 
 // Force a number between 0 and 1
