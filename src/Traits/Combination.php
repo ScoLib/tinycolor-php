@@ -13,8 +13,8 @@ trait Combination
     public function complement()
     {
         $hsl      = $this->toHsl();
-        $hsl['h'] = ($hsl['h'] + 180) % 360;
-        return TinyColor::parse($hsl);
+        $hsl['h'] = fmod(($hsl['h'] + 180), 360);
+        return tinycolor($hsl);
     }
 
     public function triad()
@@ -23,13 +23,13 @@ trait Combination
         $h   = $hsl['h'];
         return [
             $this,
-            TinyColor::parse([
-                'h' => ($h + 120) % 360,
+            tinycolor([
+                'h' => fmod(($h + 120), 360),
                 's' => $hsl['s'],
                 'l' => $hsl['l'],
             ]),
-            TinyColor::parse([
-                'h' => ($h + 240) % 360,
+            tinycolor([
+                'h' => fmod(($h + 240), 360),
                 's' => $hsl['s'],
                 'l' => $hsl['l'],
             ]),
@@ -42,18 +42,18 @@ trait Combination
         $h   = $hsl['h'];
         return [
             $this,
-            TinyColor::parse([
-                'h' => ($h + 90) % 360,
+            tinycolor([
+                'h' => fmod(($h + 90), 360),
                 's' => $hsl['s'],
                 'l' => $hsl['l'],
             ]),
-            TinyColor::parse([
-                'h' => ($h + 180) % 360,
+            tinycolor([
+                'h' => fmod(($h + 180), 360),
                 's' => $hsl['s'],
                 'l' => $hsl['l'],
             ]),
-            TinyColor::parse([
-                'h' => ($h + 270) % 360,
+            tinycolor([
+                'h' => fmod(($h + 270), 360),
                 's' => $hsl['s'],
                 'l' => $hsl['l'],
             ]),
@@ -66,13 +66,13 @@ trait Combination
         $h   = $hsl['h'];
         return [
             $this,
-            TinyColor::parse([
-                'h' => ($h + 72) % 360,
+            tinycolor([
+                'h' => fmod(($h + 72), 360),
                 's' => $hsl['s'],
                 'l' => $hsl['l'],
             ]),
-            TinyColor::parse([
-                'h' => ($h + 216) % 360,
+            tinycolor([
+                'h' => fmod(($h + 216), 360),
                 's' => $hsl['s'],
                 'l' => $hsl['l'],
             ]),
@@ -85,9 +85,9 @@ trait Combination
         $part = 360 / $slices;
         $ret  = [$this];
 
-        for ($hsl['h'] = (($hsl['h'] - ($part * $results >> 1)) + 720) % 360; --$results;) {
-            $hsl['h'] = ($hsl['h'] + $part) % 360;
-            $ret[]    = TinyColor::parse($hsl);
+        for ($hsl['h'] = fmod((($hsl['h'] - ($part * $results >> 1)) + 720), 360); --$results;) {
+            $hsl['h'] = fmod(($hsl['h'] + $part), 360);
+            $ret[]    = tinycolor($hsl);
         }
 
         return $ret;
@@ -95,7 +95,7 @@ trait Combination
 
     public function monochromatic($results = 6)
     {
-        $hsv = $this->toHsl();
+        $hsv = $this->toHsv();
 
         $h   = $hsv['h'];
         $s   = $hsv['s'];
@@ -105,8 +105,8 @@ trait Combination
         $modification = 1 / $results;
 
         while ($results--) {
-            $ret[] = TinyColor::parse(['h' => $h, 's' => $s, 'v' => $v]);
-            $v     = ($v + $modification) % 1;
+            $ret[] = tinycolor(['h' => $h, 's' => $s, 'v' => $v]);
+            $v     = fmod(($v + $modification), 1);
         }
 
         return $ret;

@@ -92,7 +92,7 @@ trait Convert
             return $p;
         };
 
-        if ($s === 0) {
+        if ($s == 0) {
             $r = $g = $b = $l; // achromatic
         } else {
             $q = $l < 0.5 ? $l * (1 + $s) : $l + $s - $l * $s;
@@ -123,7 +123,7 @@ trait Convert
         $v = $max;
 
         $d = $max - $min;
-        $s = $max === 0 ? 0 : $d / $max;
+        $s = $max == 0 ? 0 : $d / $max;
 
         if ($max == $min) {
             $h = 0; // achromatic
@@ -164,7 +164,7 @@ trait Convert
         $p   = $v * (1 - $s);
         $q   = $v * (1 - $f * $s);
         $t   = $v * (1 - (1 - $f) * $s);
-        $mod = $i % 6;
+        $mod = fmod($i, 6);
         $r   = [$v, $q, $p, $p, $t, $v][$mod];
         $g   = [$t, $v, $v, $q, $p, $p][$mod];
         $b   = [$p, $p, $t, $v, $v, $q][$mod];
@@ -180,7 +180,7 @@ trait Convert
     // Converts an RGB color to hex
     // Assumes r, g, and b are contained in the set [0, 255]
     // Returns a 3 or 6 character hex
-    protected function rgbToHex($r, $g, $b, $allow3Char)
+    protected function rgbToHex($r, $g, $b, $allow3Char = false)
     {
         $hex = [
             pad2(dechex(round($r))),
@@ -190,7 +190,7 @@ trait Convert
 
         // Return a 3 character hex if possible
         if ($allow3Char && $hex[0][0] == $hex[0][1] && $hex[1][0] == $hex[1][1] && $hex[2][0] == $hex[2][1]) {
-            return $hex[0][0] + $hex[1][0] + $hex[2][0];
+            return $hex[0][0] . $hex[1][0] . $hex[2][0];
         }
 
         return implode('', $hex);
@@ -200,7 +200,7 @@ trait Convert
     // Converts an RGBA color plus alpha transparency to hex
     // Assumes r, g, b are contained in the set [0, 255] and
     // a in [0, 1]. Returns a 4 or 8 character rgba hex
-    protected function rgbaToHex($r, $g, $b, $a, $allow4Char)
+    protected function rgbaToHex($r, $g, $b, $a, $allow4Char = false)
     {
 
         $hex = [
@@ -212,7 +212,7 @@ trait Convert
 
         // Return a 4 character hex if possible
         if ($allow4Char && $hex[0][0] == $hex[0][1] && $hex[1][0] == $hex[1][1] && $hex[2][0] == $hex[2][1] && $hex[3][0] == $hex[3][1]) {
-            return $hex[0][0] + $hex[1][0] + $hex[2][0] + $hex[3][0];
+            return $hex[0][0] . $hex[1][0] . $hex[2][0] . $hex[3][0];
         }
 
         return implode('', $hex);

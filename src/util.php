@@ -4,7 +4,7 @@
 // Return a valid alpha value [0,1] with all invalid values being set to 1
 function boundAlpha($a)
 {
-    $a = floatval($a);
+    // $a = floatval($a);
 
     if (!is_numeric($a) || $a < 0 || $a > 1) {
         $a = 1;
@@ -35,7 +35,7 @@ function bound01($n, $max)
     }
 
     // Convert into [0, 1] range if it isn't already
-    return ($n % $max) / floatval($max);
+    return fmod($n, $max) / floatval($max);
 }
 
 // Force a number between 0 and 1
@@ -54,7 +54,7 @@ function parseIntFromHex($val)
 // <http://stackoverflow.com/questions/7422072/javascript-how-to-detect-number-as-a-decimal-including-1-0>
 function isOnePointZero($n)
 {
-    return is_string($n) && strpos($n, '.') !== false && floatval($n) === 1;
+    return is_string($n) && strpos($n, '.') !== false && floatval($n) === 1.0;
 }
 
 // Check to see if string passed in is a percentage
@@ -72,8 +72,8 @@ function pad2($c)
 // Replace a decimal with it's percentage value
 function convertToPercentage($n)
 {
-    if ($n <= 1) {
-        $n = ($n * 100) + "%";
+    if (strpos($n, '%') === false && $n <= 1) {
+        $n = ($n * 100) . "%";
     }
 
     return $n;
@@ -96,15 +96,20 @@ function validateWCAG2Parms($parms)
     // return valid WCAG2 parms for isReadable.
     // If input parms are invalid, return {"level":"AA", "size":"small"}
 
-    $parms = $parms ?: ['level' => 'AA', 'size' => 'small'];
+    // $parms = $parms ?: ['level' => 'AA', 'size' => 'small'];
     $level = strtoupper($parms['level'] ?? 'AA');
     $size  = strtolower($parms['size'] ?? 'small');
 
-    if ($level !== "AA" && $level !== "AAA") {
+    if ($level != "AA" && $level != "AAA") {
         $level = "AA";
     }
-    if ($size !== "small" && $size !== "large") {
+    if ($size != "small" && $size != "large") {
         $size = "small";
     }
     return ['level' => $level, 'size' => $size];
+}
+
+function tinycolor($color, array $opts = [])
+{
+    return \TinyColor\TinyColor::parse($color, $opts);
 }

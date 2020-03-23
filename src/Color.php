@@ -47,6 +47,7 @@ class Color
 
     public function __construct($color, array $opts = [])
     {
+        $color = $color ?: '';
 
         // If input is already a tinycolor, return itself
         // if (color instanceof tinycolor) {
@@ -149,25 +150,25 @@ class Color
         }
 
         if (is_array($color)) {
-            if ($this->isValidCSSUnit($color['r'])
-                && $this->isValidCSSUnit($color['g'])
-                && $this->isValidCSSUnit($color['b'])
+            if ($this->isValidCSSUnit($color['r'] ?? null)
+                && $this->isValidCSSUnit($color['g'] ?? null)
+                && $this->isValidCSSUnit($color['b'] ?? null)
             ) {
                 $rgb    = $this->rgbToRgb($color['r'], $color['g'], $color['b']);
                 $ok     = true;
                 $format = substr($color['r'], -1) === "%" ? "prgb" : "rgb";
-            } elseif ($this->isValidCSSUnit($color['h'])
-                && $this->isValidCSSUnit($color['s'])
-                && $this->isValidCSSUnit($color['v'])
+            } elseif ($this->isValidCSSUnit($color['h'] ?? null)
+                && $this->isValidCSSUnit($color['s'] ?? null)
+                && $this->isValidCSSUnit($color['v'] ?? null)
             ) {
                 $s      = convertToPercentage($color['s']);
                 $v      = convertToPercentage($color['v']);
                 $rgb    = $this->hsvToRgb($color['h'], $s, $v);
                 $ok     = true;
                 $format = "hsv";
-            } elseif ($this->isValidCSSUnit($color['h'])
-                && $this->isValidCSSUnit($color['s'])
-                && $this->isValidCSSUnit($color['l'])
+            } elseif ($this->isValidCSSUnit($color['h'] ?? null)
+                && $this->isValidCSSUnit($color['s'] ?? null)
+                && $this->isValidCSSUnit($color['l'] ?? null)
             ) {
                 $s      = convertToPercentage($color['s']);
                 $l      = convertToPercentage($color['l']);
@@ -185,7 +186,7 @@ class Color
 
         return [
             'ok'     => $ok,
-            'format' => $color['format'] ?: $format,
+            'format' => $color['format'] ?? $format,
             'r'      => min(255, max($rgb['r'], 0)),
             'g'      => min(255, max($rgb['g'], 0)),
             'b'      => min(255, max($rgb['b'], 0)),
@@ -307,24 +308,24 @@ class Color
             "hsla({$h}, {$s}%, {$l}%, {$this->roundA})";
     }
 
-    public function toHex($allow3Char)
+    public function toHex($allow3Char = false)
     {
         return $this->rgbToHex($this->r, $this->g, $this->b, $allow3Char);
     }
 
-    public function toHexString($allow3Char)
+    public function toHexString($allow3Char = false)
     {
-        return '#' + $this->toHex($allow3Char);
+        return '#' . $this->toHex($allow3Char);
     }
 
-    public function toHex8($allow4Char)
+    public function toHex8($allow4Char = false)
     {
         return $this->rgbaToHex($this->r, $this->g, $this->b, $this->a, $allow4Char);
     }
 
-    public function toHex8String($allow4Char)
+    public function toHex8String($allow4Char = false)
     {
-        return '#' + $this->toHex8($allow4Char);
+        return '#' . $this->toHex8($allow4Char);
     }
 
     public function toRgb()
@@ -369,7 +370,7 @@ class Color
 
     public function toName()
     {
-        if ($this->a === 0) {
+        if ($this->a == 0) {
             return "transparent";
         }
 
@@ -380,7 +381,7 @@ class Color
         return $this->getByHex($hex) ?: false;
     }
 
-    public function toFilter($secondColor)
+    public function toFilter($secondColor = null)
     {
         $hex8String       = '#' . $this->rgbaToArgbHex($this->r, $this->g, $this->b, $this->a);
         $secondHex8String = $hex8String;
@@ -394,19 +395,19 @@ class Color
         return "progid:DXImageTransform.Microsoft.gradient({$gradientType}startColorstr={$hex8String},endColorstr={$secondHex8String})";
     }
 
-    public function toString($format)
+    public function toString($format = null)
     {
         $formatSet = $format ? true : false;
         $format    = $format ?: $this->format;
 
         $formattedString  = false;
         $hasAlpha         = $this->a < 1 && $this->a >= 0;
-        $needsAlphaFormat = !$formatSet && $hasAlpha && ($format === "hex" || $format === "hex6" || $format === "hex3" || $format === "hex4" || $format === "hex8" || $format === "name");
+        $needsAlphaFormat = !$formatSet && $hasAlpha && in_array($format, ['hex', 'hex6', 'hex3', 'hex4', 'hex8', 'name']);
 
         if ($needsAlphaFormat) {
             // Special case for "transparent", all other non-alpha formats
             // will return rgba when there is transparency.
-            if ($format === "name" && $this->a === 0) {
+            if ($format === "name" && $this->a == 0) {
                 return $this->toName();
             }
             return $this->toRgbString();
@@ -439,7 +440,7 @@ class Color
             $formattedString = $this->toHsvString();
         }
 
-        return $formattedString || $this->toHexString();
+        return $formattedString ?: $this->toHexString();
     }
 
     public function clone()
@@ -459,7 +460,7 @@ class Color
     // `stringInputToObject`
     // Permissive string parsing.  Take in a number of formats, and output an object
     // based on detected format.  Returns `{ r, g, b }` or `{ h, s, l }` or `{ h, s, v}`
-    function stringInputToObject(string $color)
+    protected function stringInputToObject(string $color)
     {
         $color = strtolower(trim($color));
         $named = false;

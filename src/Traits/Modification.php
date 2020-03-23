@@ -11,7 +11,6 @@ trait Modification
     // Thanks to less.js for some of the basics here
     // <https://github.com/cloudhead/less.js/blob/master/lib/less/functions.js>
     /**
-     * @param $color
      * @param int $amount
      * @return \TinyColor\Color
      */
@@ -24,7 +23,6 @@ trait Modification
     }
 
     /**
-     * @param $color
      * @param int $amount
      * @return \TinyColor\Color
      */
@@ -37,14 +35,17 @@ trait Modification
     }
 
     /**
-     * @param $color
-     * @return mixed
+     * @return \TinyColor\Color
      */
     public function greyscale()
     {
         return $this->desaturate(100);
     }
 
+    /**
+     * @param int $amount
+     * @return \TinyColor\Color
+     */
     public function lighten(int $amount = 10)
     {
         $hsl      = $this->toHsl();
@@ -53,8 +54,13 @@ trait Modification
         return $this->modify($hsl);
     }
 
+    /**
+     * @param int $amount
+     * @return \TinyColor\Color
+     */
     public function brighten(int $amount = 10)
     {
+        // js 中 Math.round 对于 小数位等于5的负数，取值是舍去，与php不同
         $rgb      = $this->toRgb();
         $rgb['r'] = max(
             0,
@@ -71,6 +77,10 @@ trait Modification
         return $this->modify($rgb);
     }
 
+    /**
+     * @param int $amount
+     * @return \TinyColor\Color
+     */
     public function darken(int $amount = 10)
     {
         $hsl      = $this->toHsl();
@@ -81,14 +91,22 @@ trait Modification
 
     // Spin takes a positive or negative amount within [-360, 360] indicating the change of hue.
     // Values outside of this range will be wrapped into this range.
+    /**
+     * @param int $amount
+     * @return \TinyColor\Color
+     */
     public function spin(int $amount)
     {
         $hsl      = $this->toHsl();
-        $hue      = ($hsl['h'] + $amount) % 360;
+        $hue      = fmod(($hsl['h'] + $amount), 360);
         $hsl['h'] = $hue < 0 ? 360 + $hue : $hue;
         return $this->modify($hsl);
     }
 
+    /**
+     * @param $color
+     * @return \TinyColor\Color
+     */
     protected function modify($color)
     {
         $color = new static($color);

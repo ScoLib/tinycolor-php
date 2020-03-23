@@ -23,7 +23,7 @@ class TinyColor
 
     // `equals`
     // Can be called with any tinycolor input
-    public function equals($color1, $color2)
+    public static function equals($color1, $color2)
     {
         if (!$color1 || !$color2) {
             return false;
@@ -31,7 +31,7 @@ class TinyColor
         return self::parse($color1)->toRgbString() == self::parse($color2)->toRgbString();
     }
 
-    public function random()
+    public static function random()
     {
         return self::fromRatio([
             'r' => mt_rand() / mt_getrandmax(),
@@ -40,9 +40,9 @@ class TinyColor
         ]);
     }
 
-    public function mix($color1, $color2, $amount)
+    public static function mix($color1, $color2, $amount = 50)
     {
-        $amount = ($amount === 0) ? 0 : ($amount ?: 50);
+        // $amount = ($amount === 0) ? 0 : ($amount ?: 50);
 
         $rgb1 = self::parse($color1)->toRgb();
         $rgb2 = self::parse($color2)->toRgb();
@@ -65,7 +65,7 @@ class TinyColor
 
     // `contrast`
     // Analyze the 2 colors and returns the color contrast defined by (WCAG Version 2)
-    public function readability($color1, $color2)
+    public static function readability($color1, $color2)
     {
         $c1 = self::parse($color1);
         $c2 = self::parse($color2);
@@ -83,7 +83,7 @@ class TinyColor
     // *Example*
     //    tinycolor.isReadable("#000", "#111") => false
     //    tinycolor.isReadable("#000", "#111",{level:"AA",size:"large"}) => false
-    public function isReadable($color1, $color2, $wcag2)
+    public static function isReadable($color1, $color2, $wcag2 = [])
     {
         $readability = self::readability($color1, $color2);
 
@@ -114,14 +114,14 @@ class TinyColor
     //    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:true}).toHexString();  // "#ffffff"
     //    tinycolor.mostReadable("#a8015a", ["#faf3f3"],{includeFallbackColors:true,level:"AAA",size:"large"}).toHexString(); // "#faf3f3"
     //    tinycolor.mostReadable("#a8015a", ["#faf3f3"],{includeFallbackColors:true,level:"AAA",size:"small"}).toHexString(); // "#ffffff"
-    public function mostReadable($baseColor, $colorList, $args)
+    public static function mostReadable($baseColor, $colorList, $args = [])
     {
         $bestColor = null;
         $bestScore = 0;
 
-        $includeFallbackColors = $args['includeFallbackColors'];
-        $level                 = $args['level'];
-        $size                  = $args['size'];
+        $includeFallbackColors = $args['includeFallbackColors'] ?? false;
+        $level                 = $args['level'] ?? '';
+        $size                  = $args['size'] ?? '';
 
         foreach ($colorList as $item) {
             $readability = self::readability($baseColor, $item);

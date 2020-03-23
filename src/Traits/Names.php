@@ -7,7 +7,7 @@ trait Names
     // Big List of Colors
     // ------------------
     // <http://www.w3.org/TR/css3-color/#svg-color>
-    protected $names = [
+    public static $names = [
         'aliceblue'            => 'f0f8ff',
         'antiquewhite'         => 'faebd7',
         'aqua'                 => '0ff',
@@ -161,13 +161,14 @@ trait Names
 
     protected function getByName($name)
     {
-        return self::$names[$name] ?? null;
+        return static::$names[$name] ?? null;
     }
 
     protected function getByHex($hex)
     {
         // Make it easy to access colors via `hexNames[hex]`
-        $hexNames = array_flip(self::$names);
+        $hexNames = array_flip(static::$names);
         return $hexNames[$hex] ?? null;
     }
+
 }
