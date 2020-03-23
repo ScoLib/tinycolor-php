@@ -211,7 +211,12 @@ trait Convert
         ];
 
         // Return a 4 character hex if possible
-        if ($allow4Char && $hex[0][0] == $hex[0][1] && $hex[1][0] == $hex[1][1] && $hex[2][0] == $hex[2][1] && $hex[3][0] == $hex[3][1]) {
+        if ($allow4Char
+            && $hex[0][0] == $hex[0][1]
+            && $hex[1][0] == $hex[1][1]
+            && $hex[2][0] == $hex[2][1]
+            && $hex[3][0] == $hex[3][1]
+        ) {
             return $hex[0][0] . $hex[1][0] . $hex[2][0] . $hex[3][0];
         }
 

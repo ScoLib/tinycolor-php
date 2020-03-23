@@ -109,11 +109,6 @@ class TinyColor
     // Given a base color and a list of possible foreground or background
     // colors for that base, returns the most readable color.
     // Optionally returns Black or White if the most readable color is unreadable.
-    // *Example*
-    //    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:false}).toHexString(); // "#112255"
-    //    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:true}).toHexString();  // "#ffffff"
-    //    tinycolor.mostReadable("#a8015a", ["#faf3f3"],{includeFallbackColors:true,level:"AAA",size:"large"}).toHexString(); // "#faf3f3"
-    //    tinycolor.mostReadable("#a8015a", ["#faf3f3"],{includeFallbackColors:true,level:"AAA",size:"small"}).toHexString(); // "#ffffff"
     public static function mostReadable($baseColor, $colorList, $args = [])
     {
         $bestColor = null;

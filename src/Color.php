@@ -23,8 +23,11 @@ class Color
     // Actual matching.
     // Parentheses and commas are optional, but not required.
     // Whitespace can take the place of commas or opening paren
-    const PERMISSIVE_MATCH3 = "[\\s|\\(]+(" . self::CSS_UNIT . ")[,|\\s]+(" . self::CSS_UNIT . ")[,|\\s]+(" . self::CSS_UNIT . ")\\s*\\)?";
-    const PERMISSIVE_MATCH4 = "[\\s|\\(]+(" . self::CSS_UNIT . ")[,|\\s]+(" . self::CSS_UNIT . ")[,|\\s]+(" . self:: CSS_UNIT . ")[,|\\s]+(" . self::CSS_UNIT . ")\\s*\\)?";
+    const PERMISSIVE_MATCH3 = "[\\s|\\(]+(" . self::CSS_UNIT . ")[,|\\s]+("
+                            . self::CSS_UNIT . ")[,|\\s]+(" . self::CSS_UNIT . ")\\s*\\)?";
+    const PERMISSIVE_MATCH4 = "[\\s|\\(]+(" . self::CSS_UNIT . ")[,|\\s]+("
+                            . self::CSS_UNIT . ")[,|\\s]+(" . self:: CSS_UNIT
+                            . ")[,|\\s]+(" . self::CSS_UNIT . ")\\s*\\)?";
 
     private $matchers = [];
 
@@ -390,7 +393,8 @@ class Color
             $secondHex8String = '#' . $this->rgbaToArgbHex($s->r, $s->g, $s->b, $s->a);
         }
 
-        return "progid:DXImageTransform.Microsoft.gradient({$gradientType}startColorstr={$hex8String},endColorstr={$secondHex8String})";
+        return "progid:DXImageTransform.Microsoft.gradient("
+            . "{$gradientType}startColorstr={$hex8String},endColorstr={$secondHex8String})";
     }
 
     public function toString($format = null)
@@ -400,7 +404,8 @@ class Color
 
         $formattedString  = false;
         $hasAlpha         = $this->a < 1 && $this->a >= 0;
-        $needsAlphaFormat = !$formatSet && $hasAlpha && in_array($format, ['hex', 'hex6', 'hex3', 'hex4', 'hex8', 'name']);
+        $needsAlphaFormat = !$formatSet && $hasAlpha
+                            && in_array($format, ['hex', 'hex6', 'hex3', 'hex4', 'hex8', 'name']);
 
         if ($needsAlphaFormat) {
             // Special case for "transparent", all other non-alpha formats
