@@ -38,8 +38,9 @@ class Color
      * @var float|int
      */
     private $roundA;
+
     /**
-     * @var bool
+     * @var string
      */
     private $format;
     private $gradientType;
@@ -139,9 +140,6 @@ class Color
             'b' => 0,
         ];
         $a      = 1;
-        $s      = null;
-        $v      = null;
-        $l      = null;
         $ok     = false;
         $format = false;
 

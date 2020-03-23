@@ -109,7 +109,7 @@ trait Modification
      */
     protected function modify($color)
     {
-        $color = new static($color);
+        $color = tinycolor($color);
 
         $this->r = $color->r;
         $this->g = $color->g;
