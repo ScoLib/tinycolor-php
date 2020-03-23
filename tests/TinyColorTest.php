@@ -186,23 +186,30 @@ class TinyColorTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(TinyColor::equals($hex, $hsv));
 
         $this->assertTrue(TinyColor::equals($hsl, $hsv));
-
     }
 
     public function testWithRatio()
     {
         $this->assertEquals('#ffffff', TinyColor::fromRatio(['r' => 1, 'g' => 1, 'b' => 1])->toHexString());
 
-        $this->assertEquals('rgba(255, 0, 0, 0.5)',
-            TinyColor::fromRatio(['r' => 1, 'g' => 0, 'b' => 0, 'a' => .5])->toRgbString());
+        $this->assertEquals(
+            'rgba(255, 0, 0, 0.5)',
+            TinyColor::fromRatio(['r' => 1, 'g' => 0, 'b' => 0, 'a' => .5])->toRgbString()
+        );
 
-        $this->assertEquals('rgb(255, 0, 0)',
-            TinyColor::fromRatio(['r' => 1, 'g' => 0, 'b' => 0, 'a' => 1])->toRgbString());
+        $this->assertEquals(
+            'rgb(255, 0, 0)',
+            TinyColor::fromRatio(['r' => 1, 'g' => 0, 'b' => 0, 'a' => 1])->toRgbString()
+        );
 
-        $this->assertEquals('rgb(255, 0, 0)',
-            TinyColor::fromRatio(['r' => 1, 'g' => 0, 'b' => 0, 'a' => 10])->toRgbString());
-        $this->assertEquals('rgb(255, 0, 0)',
-            TinyColor::fromRatio(['r' => 1, 'g' => 0, 'b' => 0, 'a' => -1])->toRgbString());
+        $this->assertEquals(
+            'rgb(255, 0, 0)',
+            TinyColor::fromRatio(['r' => 1, 'g' => 0, 'b' => 0, 'a' => 10])->toRgbString()
+        );
+        $this->assertEquals(
+            'rgb(255, 0, 0)',
+            TinyColor::fromRatio(['r' => 1, 'g' => 0, 'b' => 0, 'a' => -1])->toRgbString()
+        );
     }
 
     public function testWithoutRatio()
@@ -256,8 +263,10 @@ class TinyColorTest extends \PHPUnit\Framework\TestCase
 
         $this->assertTrue(TinyColor::equals(['r' => '90%', 'g' => '45%', 'b' => '0%'], 'rgb(90%, 45%, 0%)'));
         $this->assertTrue(TinyColor::equals(['r' => '90%', 'g' => '45%', 'b' => '0%'], 'rgb 90% 45% 0%'));
-        $this->assertTrue(TinyColor::equals(['r' => '90%', 'g' => '45%', 'b' => '0%', 'a' => .4],
-            'rgba 90% 45% 0% .4'));
+        $this->assertTrue(TinyColor::equals(
+            ['r' => '90%', 'g' => '45%', 'b' => '0%', 'a' => .4],
+            'rgba 90% 45% 0% .4'
+        ));
         $this->assertFalse(TinyColor::equals(['r' => '89%', 'g' => '45%', 'b' => '0%'], 'rgba 90% 45% 0% 1'));
         $this->assertFalse(TinyColor::equals(['r' => '89%', 'g' => '45%', 'b' => '0%'], 'rgb(90%, 45%, 0%)'));
         $this->assertFalse(TinyColor::equals(['r' => '89%', 'g' => '45%', 'b' => '0%'], 'rgb 90% 45% 0%'));
@@ -276,8 +285,10 @@ class TinyColorTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertEquals('#2400c2', tinycolor(['h' => 251, 's' => 100, 'l' => .38])->toHexString());
         $this->assertEquals('rgb(36, 0, 194)', tinycolor(['h' => 251, 's' => 100, 'l' => .38])->toRgbString());
-        $this->assertEquals('hsl(251, 100%, 38%)',
-            tinycolor(['h' => 251, 's' => 100, 'l' => .38])->toHslString());
+        $this->assertEquals(
+            'hsl(251, 100%, 38%)',
+            tinycolor(['h' => 251, 's' => 100, 'l' => .38])->toHslString()
+        );
         $this->assertEquals('#2400c2', tinycolor('hsl(251, 100, 38)')->toHexString());
         $this->assertEquals('rgb(36, 0, 194)', tinycolor('hsl(251, 100%, 38%)')->toRgbString());
         $this->assertEquals('hsla(0, 100%, 50%, 0.5)', tinycolor('hsla(0, 100%, 50%, .5)')->toHslString());
@@ -599,10 +610,12 @@ class TinyColorTest extends \PHPUnit\Framework\TestCase
             tinycolor(['r' => 255, 'g' => 20, 'b' => 10, 'a' => 0])->toName()
         );
         $this->assertEquals(
-            'transparent', tinycolor("transparent")->toString()
+            'transparent',
+            tinycolor("transparent")->toString()
         );
         $this->assertEquals(
-            '000000', tinycolor("transparent")->toHex()
+            '000000',
+            tinycolor("transparent")->toHex()
         );
     }
 
@@ -781,28 +794,52 @@ class TinyColorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("#00dd00", TinyColor::mostReadable("#f00", ["#d00", "#0d0"])->toHexString());
         $this->assertEquals("#ffffff", TinyColor::mostReadable("#fff", ["#fff", "#fff"])->toHexString());
         //includeFallbackColors
-        $this->assertEquals("#000000",
-            TinyColor::mostReadable("#fff", ["#fff", "#fff"], ['includeFallbackColors' => true])->toHexString());
-        $this->assertEquals("#112255",
-            TinyColor::mostReadable("#123", ["#124", "#125"], ['includeFallbackColors' => false])->toHexString());
-        $this->assertEquals("#ffffff",
-            TinyColor::mostReadable("#123", ["#000", "#fff"], ['includeFallbackColors' => false])->toHexString());
-        $this->assertEquals("#ffffff",
-            TinyColor::mostReadable("#123", ["#124", "#125"], ['includeFallbackColors' => true])->toHexString());
+        $this->assertEquals(
+            "#000000",
+            TinyColor::mostReadable("#fff", ["#fff", "#fff"], ['includeFallbackColors' => true])->toHexString()
+        );
+        $this->assertEquals(
+            "#112255",
+            TinyColor::mostReadable("#123", ["#124", "#125"], ['includeFallbackColors' => false])->toHexString()
+        );
+        $this->assertEquals(
+            "#ffffff",
+            TinyColor::mostReadable("#123", ["#000", "#fff"], ['includeFallbackColors' => false])->toHexString()
+        );
+        $this->assertEquals(
+            "#ffffff",
+            TinyColor::mostReadable("#123", ["#124", "#125"], ['includeFallbackColors' => true])->toHexString()
+        );
 
-        $this->assertEquals("#000000",
-            TinyColor::mostReadable("#ff0088", ["#000", "#fff"], ['includeFallbackColors' => false])->toHexString());
-        $this->assertEquals("#2e0c3a", TinyColor::mostReadable("#ff0088", ["#2e0c3a"],
-            ['includeFallbackColors' => true, 'level' => "AAA", 'size' => "large"])->toHexString());
-        $this->assertEquals("#000000", TinyColor::mostReadable("#ff0088", ["#2e0c3a"],
-            ['includeFallbackColors' => true, 'level' => "AAA", 'size' => "small"])->toHexString());
+        $this->assertEquals(
+            "#000000",
+            TinyColor::mostReadable("#ff0088", ["#000", "#fff"], ['includeFallbackColors' => false])->toHexString()
+        );
+        $this->assertEquals("#2e0c3a", TinyColor::mostReadable(
+            "#ff0088",
+            ["#2e0c3a"],
+            ['includeFallbackColors' => true, 'level' => "AAA", 'size' => "large"]
+        )->toHexString());
+        $this->assertEquals("#000000", TinyColor::mostReadable(
+            "#ff0088",
+            ["#2e0c3a"],
+            ['includeFallbackColors' => true, 'level' => "AAA", 'size' => "small"]
+        )->toHexString());
 
-        $this->assertEquals("#ffffff",
-            TinyColor::mostReadable("#371b2c", ["#000", "#fff"], ['includeFallbackColors' => false])->toHexString());
-        $this->assertEquals("#a9acb6", TinyColor::mostReadable("#371b2c", ["#a9acb6"],
-            ['includeFallbackColors' => true, 'level' => "AAA", 'size' => "large"])->toHexString());
-        $this->assertEquals("#ffffff", TinyColor::mostReadable("#371b2c", ["#a9acb6"],
-            ['includeFallbackColors' => true, 'level' => "AAA", 'size' => "small"])->toHexString());
+        $this->assertEquals(
+            "#ffffff",
+            TinyColor::mostReadable("#371b2c", ["#000", "#fff"], ['includeFallbackColors' => false])->toHexString()
+        );
+        $this->assertEquals("#a9acb6", TinyColor::mostReadable(
+            "#371b2c",
+            ["#a9acb6"],
+            ['includeFallbackColors' => true, 'level' => "AAA", 'size' => "large"]
+        )->toHexString());
+        $this->assertEquals("#ffffff", TinyColor::mostReadable(
+            "#371b2c",
+            ["#a9acb6"],
+            ['includeFallbackColors' => true, 'level' => "AAA", 'size' => "small"]
+        )->toHexString());
     }
 
     public function testToFilters()
@@ -1015,7 +1052,6 @@ class TinyColorTest extends \PHPUnit\Framework\TestCase
         // 7f00ff => 8000ff
         $combination = tinycolor("red")->tetrad();
         $this->assertEquals("ff0000,80ff00,00ffff,8000ff", $colorsToHexString($combination));
-
     }
 
     public function testRandom()

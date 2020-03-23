@@ -170,5 +170,4 @@ trait Names
         $hexNames = array_flip(static::$names);
         return $hexNames[$hex] ?? null;
     }
-
 }
