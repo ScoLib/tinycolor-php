@@ -453,13 +453,13 @@ $color2->toString(); // "rgba(255, 0, 0, 0.5)"
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/scolib/tinycolor.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/tinycolor/tinycolor.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/scolib/tinycolor-php/master.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/scolib/tinycolor.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/tinycolor/tinycolor.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/scolib/tinycolor
+[link-packagist]: https://packagist.org/packages/tinycolor/tinycolor
 [link-travis]: https://travis-ci.com/scolib/tinycolor-php
-[link-downloads]: https://packagist.org/packages/scolib/tinycolor
+[link-downloads]: https://packagist.org/packages/tinycolor/tinycolor
 [link-author]: https://github.com/klgd
 [link-contributors]: ../../contributors
