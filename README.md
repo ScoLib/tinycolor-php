@@ -15,7 +15,7 @@ TinyColor-PHP is a [TinyColor](https://github.com/bgrins/TinyColor) implementati
 Via Composer
 
 ``` bash
-$ composer require scolib/tinycolor
+$ composer require tinycolor/tinycolor
 ```
 
 ## Usage
